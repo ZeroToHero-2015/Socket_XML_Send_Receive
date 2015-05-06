@@ -48,9 +48,14 @@ namespace Socket_XML_Send_Receive
         }
         private void Debug (string str)
         {
-            dt = GetCurrentDT();
-            richTextBox3.AppendText(dt+" - "+str + ".\n");
-            richTextBox3.ScrollToCaret();
+            Action appendToTextBox = () =>
+            {
+                dt = GetCurrentDT();
+                richTextBox3.AppendText(dt + " - " + str + ".\n");
+                richTextBox3.ScrollToCaret();
+            };
+
+            richTextBox3.Invoke(appendToTextBox);
         }
         public void MyValidationEventHandler(object sender, ValidationEventArgs args)
         {
@@ -325,7 +330,7 @@ namespace Socket_XML_Send_Receive
         private void Sender()
         {
             ip_ext = textBox1.Text;
-            port_send_ext = System.Convert.ToInt16(textBox2.Text);
+            port_send_ext = System.Convert.ToInt32(textBox2.Text);
             server2 = null;
             using (server2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
