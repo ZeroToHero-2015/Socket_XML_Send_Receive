@@ -76,7 +76,7 @@ namespace Socket_XML_Send_Receive
 #pragma warning disable 618
                 v.ValidationType = ValidationType.XDR;
 #pragma warning restore 618
-            };
+            }
             v.ValidationEventHandler += new ValidationEventHandler(MyValidationEventHandler);
             while (v.Read())
             {
@@ -84,7 +84,7 @@ namespace Socket_XML_Send_Receive
                 // bool Success = true;
                 // Console.WriteLine("Validation finished. Validation {0}", (Success == true ? "successful" : "failed"));
                 // Path.GetExtension(label11.Text).Substring(1).ToUpper()
-            };
+            }
             v.Close();
             if (isValid)
             {
@@ -93,7 +93,7 @@ namespace Socket_XML_Send_Receive
             else
             {
                 return false;//Document is invalid
-            };
+            }
         }
         private void Listener()
         {
@@ -113,7 +113,7 @@ namespace Socket_XML_Send_Receive
                 {
                     Debug("SERVER: probleme creare server socket <" + textBox4.Text + ":" + port_listen_int.ToString() + ">");
                     Debug(ex.ToString());
-                };
+                }
                 while (true)
                 {
                     client1 = null;
@@ -128,9 +128,9 @@ namespace Socket_XML_Send_Receive
                                 if (totalBytesReceived >= rcvBuffer_full.Length)
                                 {
                                     break;
-                                };
+                                }
                                 totalBytesReceived += bytesRcvd;
-                            };
+                            }
                             Array.Copy(rcvBuffer_full, 4, rcvBuffer_partial, 0, totalBytesReceived - 4);
                             if (checkBox1.Checked)
                             {
@@ -146,12 +146,12 @@ namespace Socket_XML_Send_Receive
                                             else
                                             {
                                                 Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
+                                            }
                                         }
                                         else
                                         {
                                             richTextBox2.Text = Encoding.ASCII.GetString(rcvBuffer_partial, 0, (totalBytesReceived - 4));
-                                        };
+                                        }
                                         break;
                                     case "UTF7":
                                         if ((checkBox2.Checked) && (label11.Text != ""))
@@ -163,12 +163,12 @@ namespace Socket_XML_Send_Receive
                                             else
                                             {
                                                 Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
+                                            }
                                         }
                                         else
                                         {
                                             richTextBox2.Text = Encoding.UTF7.GetString(rcvBuffer_partial, 0, (totalBytesReceived - 4));
-                                        };
+                                        }
                                         break;
                                     case "UTF8":
                                         if ((checkBox2.Checked) && (label11.Text != ""))
@@ -180,12 +180,12 @@ namespace Socket_XML_Send_Receive
                                             else
                                             {
                                                 Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
+                                            }
                                         }
                                         else
                                         {
                                             richTextBox2.Text = Encoding.UTF8.GetString(rcvBuffer_partial, 0, (totalBytesReceived - 4));
-                                        };
+                                        }
                                         break;
                                     case "Unicode":
                                         if ((checkBox2.Checked) && (label11.Text != ""))
@@ -197,17 +197,17 @@ namespace Socket_XML_Send_Receive
                                             else
                                             {
                                                 Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
+                                            }
                                         }
                                         else
                                         {
                                             richTextBox2.Text = Encoding.Unicode.GetString(rcvBuffer_partial, 0, (totalBytesReceived - 4));
-                                        };
+                                        }
                                         break;
                                     default:
                                         //
                                         break;
-                                };
+                                }
                                 Debug("SERVER: receptionat " + (totalBytesReceived - 4) + " bytes");
                                 if (checkBox3.Checked)
                                 {
@@ -215,7 +215,7 @@ namespace Socket_XML_Send_Receive
                                     client1.Send(rcvBuffer_partial, 0, rcvBuffer_partial.Length, SocketFlags.None);
                                     Debug("SERVER: expediat echo data catre client.");
                                     */
-                                };
+                                }
                             }
                             else
                             {
@@ -231,12 +231,12 @@ namespace Socket_XML_Send_Receive
                                             else
                                             {
                                                 Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
+                                            }
                                         }
                                         else
                                         {
                                             richTextBox2.Text = Encoding.ASCII.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                        };
+                                        }
                                         break;
                                     case "UTF7":
                                         if ((checkBox2.Checked) && (label11.Text != ""))
@@ -248,12 +248,12 @@ namespace Socket_XML_Send_Receive
                                             else
                                             {
                                                 Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
+                                            }
                                         }
                                         else
                                         {
                                             richTextBox2.Text = Encoding.UTF7.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                        };
+                                        }
                                         break;
                                     case "UTF8":
                                         if ((checkBox2.Checked) && (label11.Text != ""))
@@ -265,12 +265,12 @@ namespace Socket_XML_Send_Receive
                                             else
                                             {
                                                 Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
+                                            }
                                         }
                                         else
                                         {
                                             richTextBox2.Text = Encoding.UTF8.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                        };
+                                        }
                                         break;
                                     case "Unicode":
                                         if ((checkBox2.Checked) && (label11.Text != ""))
@@ -282,17 +282,17 @@ namespace Socket_XML_Send_Receive
                                             else
                                             {
                                                 Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
+                                            }
                                         }
                                         else
                                         {
                                             richTextBox2.Text = Encoding.Unicode.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                        };
+                                        }
                                         break;
                                     default:
                                         //
                                         break;
-                                };
+                                }
                                 Debug("SERVER: receptionat " + totalBytesReceived + " bytes");
                                 if (checkBox3.Checked)
                                 {
@@ -300,13 +300,13 @@ namespace Socket_XML_Send_Receive
                                     client1.Send(rcvBuffer_partial, 0, rcvBuffer_partial.Length, SocketFlags.None);
                                     Debug("SERVER: expediat echo data catre client.");
                                     */
-                                };
-                            };
-                        };
+                                }
+                            }
+                        }
                         if (client1 != null)
                         {
                             client1.Close();
-                        };
+                        }
                         Debug("SERVER: client socket deconectat");
                     }
                     catch (Exception ex)
@@ -318,10 +318,10 @@ namespace Socket_XML_Send_Receive
                         if (client1 != null)
                         {
                             client1.Close();
-                        };
-                    };
-                };
-            };
+                        }
+                    }
+                }
+            }
         }
         private void Send()
         {
@@ -358,43 +358,11 @@ namespace Socket_XML_Send_Receive
                             default:
                                 //
                                 break;
-                        };
+                        }
                         byte[] buff_partial = new byte[reqLen * 2 + 4];
                         reqLenArray.CopyTo(buff_partial, 0);
                         buff_full.CopyTo(buff_partial, 4);
                         server2.Send(buff_partial, 0, buff_partial.Length, SocketFlags.None);
-                        if (checkBox3.Checked)
-                        {
-                            /*
-                            byte[] buff_receive_full = new byte[BUFSIZE_FULL];
-                            byte[] buff_receive_partial = new byte[BUFSIZE];
-                            server2.Receive(buff_receive_full, 0, buff_receive_full.Length, SocketFlags.None);
-                            Array.Copy(buff_receive_full, 4, buff_receive_partial, 0, buff_receive_full.Length - 4);
-                            switch (comboBox1.Text)
-                            {
-                                case "ASCII":
-                                    richTextBox5.Text = Encoding.ASCII.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "UTF7":
-                                    richTextBox5.Text = Encoding.UTF7.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "UTF8":
-                                    richTextBox5.Text = Encoding.UTF8.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "Unicode":
-                                    richTextBox5.Text = Encoding.Unicode.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                default:
-                                    //
-                                    break;
-                            };
-                            // cod de la Gino prin care fac trecerea byte > char > string
-                            //server2.Receive(buff_receive, SocketFlags.None);
-                            //char[] result = System.Text.Encoding.ASCII.GetChars(buff_receive);
-                            //string resultString = new String(result);     
-                            Debug("CLIENT: receptionat echo data de la server socket.");
-                            */ 
-                        }; 
                     }
                     else
                     {
@@ -416,41 +384,9 @@ namespace Socket_XML_Send_Receive
                             default:
                                 //
                                 break;
-                        };
+                        }
                         server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);
-                        if (checkBox3.Checked)
-                        {
-                            /*
-                            byte[] buff_receive_full = new byte[BUFSIZE_FULL];
-                            byte[] buff_receive_partial = new byte[BUFSIZE];
-                            server2.Receive(buff_receive_full, 0, buff_receive_full.Length, SocketFlags.None);
-                            Array.Copy(buff_receive_full, 4, buff_receive_partial, 0, buff_receive_full.Length - 4);
-                            switch (comboBox1.Text)
-                            {
-                                case "ASCII":
-                                    richTextBox5.Text = Encoding.ASCII.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "UTF7":
-                                    richTextBox5.Text = Encoding.UTF7.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "UTF8":
-                                    richTextBox5.Text = Encoding.UTF8.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "Unicode":
-                                    richTextBox5.Text = Encoding.Unicode.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                default:
-                                    //
-                                    break;
-                            };
-                            // cod de la Gino prin care fac trecerea byte > char > string
-                            //server2.Receive(buff_receive, SocketFlags.None);
-                            //char[] result = System.Text.Encoding.ASCII.GetChars(buff_receive);
-                            //string resultString = new String(result);     
-                            Debug("CLIENT: receptionat echo data de la server socket.");
-                            */ 
-                        };              
-                    };
+                    }
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
                 catch (Exception ex)
@@ -465,8 +401,8 @@ namespace Socket_XML_Send_Receive
                         server2.Close();
                         ((IDisposable)server2).Dispose();
                         Debug("CLIENT: deconectat de la server socket");
-                    };
-                };
+                    }
+                }
             }
         }
 
@@ -495,7 +431,7 @@ namespace Socket_XML_Send_Receive
                 richTextBox4.Clear();
                 label3.Text = "";
                 label11.Text = "";
-            };
+            }
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -505,7 +441,6 @@ namespace Socket_XML_Send_Receive
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            int size = -1;
             OpenFileDialog fDialog = new OpenFileDialog();
             fDialog.Title = "Select XSD/DTD/XDR File";
             fDialog.Filter = "XSD Files|*.xsd|DTD Files|*.dtd|XDR Files|*.xdr";
@@ -524,14 +459,13 @@ namespace Socket_XML_Send_Receive
                 {
                     richTextBox4.Clear();
                     richTextBox4.Text = File.ReadAllText(fDialog.FileName.ToString());
-                    size = richTextBox4.Text.Length;
                 }
                 catch (Exception ex)
                 {
                     Debug("Probleme incarcare/deschidere fisier XSD/DTD");
                     Debug(ex.ToString());
-                };
-            };
+                }
+            }
         }
         private void button3_Click(object sender, EventArgs e)
         {
@@ -554,7 +488,7 @@ namespace Socket_XML_Send_Receive
                         server1.Close();
                         ((IDisposable)server1).Dispose();
                         Debug("SERVER: socket <" + textBox4.Text + ":" + port_listen_int.ToString() + "> inchis");
-                    };
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -563,8 +497,8 @@ namespace Socket_XML_Send_Receive
                 finally
                 {
                     workerThread1.Abort();
-                };
-            };
+                }
+            }
         }
         private void SendButtonClick(object sender, EventArgs e)
         {
@@ -576,7 +510,6 @@ namespace Socket_XML_Send_Receive
         }
         private void button5_Click(object sender, EventArgs e)
         {
-            int size = -1;
             OpenFileDialog fDialog = new OpenFileDialog();
             fDialog.Title = "Select XML File";
             fDialog.Filter = "XML Files|*.xml";
@@ -596,14 +529,13 @@ namespace Socket_XML_Send_Receive
                 {
                     richTextBox1.Clear();
                     richTextBox1.Text = File.ReadAllText(fDialog.FileName.ToString());
-                    size = richTextBox1.Text.Length;
                 }
                 catch (Exception ex)
                 {
                     Debug("Probleme incarcare/deschidere fisier XML");
                     Debug(ex.ToString());
-                };
-            };
+                }
+            }
         }
         private void button7_Click(object sender, EventArgs e)
         {
@@ -619,7 +551,7 @@ namespace Socket_XML_Send_Receive
             if (button3.Text == "Listen OFF")
             {
                 button3_Click(sender, e);
-            };
+            }
         }
     }
 }
