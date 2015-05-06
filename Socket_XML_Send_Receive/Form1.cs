@@ -341,7 +341,7 @@ namespace Socket_XML_Send_Receive
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
 
                     byte[] buff_full = null;
-                    buff_full = ConvertStringToBytes(richTextBox1.Text, comboBox1.Text);
+                    buff_full = ConvertStringToBytes(richTextBox1.Text, (Encoding) comboBox1.SelectedItem);
 
                     if (checkBox1.Checked)
                     {
@@ -362,7 +362,7 @@ namespace Socket_XML_Send_Receive
                 catch (Exception ex)
                 {
                     Debug("CLIENT: probleme conectare/trimitere de la client la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    //Debug(ex.ToString());
+                    Debug(ex.ToString());
                 }
                 finally
                 {
@@ -376,28 +376,10 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] ConvertStringToBytes(string text, string encodingName)
+        private byte[] ConvertStringToBytes(string text, Encoding encoding)
         {
-            byte[] stringBytes = null;
-            switch (encodingName)
-            {
-                case "ASCII":
-                    stringBytes = Encoding.ASCII.GetBytes(text);
-                    break;
-                case "UTF7":
-                    stringBytes = Encoding.UTF7.GetBytes(text);
-                    break;
-                case "UTF8":
-                    stringBytes = Encoding.UTF8.GetBytes(text);
-                    break;
-                case "Unicode":
-                    stringBytes = Encoding.Unicode.GetBytes(text);
-                    break;
-                default:
-                    throw new ArgumentException("Unknown encoding: " + encodingName, "encodingName");
-                    break;
-            }
-
+            byte[] stringBytes = encoding.GetBytes(text);
+            
             return stringBytes;
         }
 
