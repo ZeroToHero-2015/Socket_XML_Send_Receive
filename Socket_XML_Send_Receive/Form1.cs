@@ -97,7 +97,7 @@ namespace Socket_XML_Send_Receive
             server1 = null;
             byte[] rcvBuffer_full = new byte[BUFSIZE_FULL];
             byte[] rcvBuffer_partial = new byte[BUFSIZE];
-            port_listen_int = System.Convert.ToInt16(textBox3.Text);
+            port_listen_int = System.Convert.ToInt32(textBox3.Text);
             using (server1 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
                 try
@@ -325,7 +325,7 @@ namespace Socket_XML_Send_Receive
         private void Sender()
         {
             ip_ext = textBox1.Text;
-            port_send_ext = System.Convert.ToInt16(textBox2.Text);
+            port_send_ext = System.Convert.ToInt32(textBox2.Text);
             server2 = null;
             using (server2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
