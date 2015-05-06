@@ -364,15 +364,21 @@ namespace Socket_XML_Send_Receive
             {
                 int bufferLengthInNetworkOrder = IPAddress.HostToNetworkOrder(buff_full.Length);
                 byte[] reqLenArray = BitConverter.GetBytes(bufferLengthInNetworkOrder);
-                byte[] buff_partial = new byte[buff_full.Length + 4];
-                reqLenArray.CopyTo(buff_partial, 0);
-                buff_full.CopyTo(buff_partial, 4);
+                var buff_partial = ConcatenateArrays(reqLenArray, buff_full);
                 return buff_partial;
             }
             else
             {
                 return buff_full;
             }
+        }
+
+        private byte[] ConcatenateArrays(byte[] firstArray, byte[] secondArray)
+        {
+            var resultArray = new byte[firstArray.Length + secondArray.Length];
+            firstArray.CopyTo(resultArray, 0);
+            secondArray.CopyTo(resultArray, firstArray.Length);
+            return resultArray;
         }
 
         private byte[] ConvertStringToByteArrayUsingEncoding(string inputMessage, Encoding encoding)
