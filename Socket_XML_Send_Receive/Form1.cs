@@ -134,7 +134,7 @@ namespace Socket_XML_Send_Receive
                             Array.Copy(rcvBuffer_full, 4, rcvBuffer_partial, 0, totalBytesReceived - 4);
                             if (checkBox1.Checked)
                             {
-                                switch (comboBox1.Text)
+                                switch (encodingComboBox.Text)
                                 {
                                     case "ASCII":
                                         if ((checkBox2.Checked) && (label11.Text!=""))
@@ -219,7 +219,7 @@ namespace Socket_XML_Send_Receive
                             }
                             else
                             {
-                                switch (comboBox1.Text)
+                                switch (encodingComboBox.Text)
                                 {
                                     case "ASCII":
                                         if ((checkBox2.Checked) && (label11.Text != ""))
@@ -338,7 +338,7 @@ namespace Socket_XML_Send_Receive
                     var buff_full = ConvertStringToByteArrayUsingEncoding();
                     if (checkBox1.Checked)
                     {
-                        int reqLen = richTextBox1.Text.Length;
+                        int reqLen = inputMessageTextBox.Text.Length;
                         int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
                         byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
                         byte[] buff_partial = new byte[reqLen * 2 + 4];
@@ -372,19 +372,19 @@ namespace Socket_XML_Send_Receive
         private byte[] ConvertStringToByteArrayUsingEncoding()
         {
             byte[] buff_full = null;
-            switch (comboBox1.Text)
+            switch (encodingComboBox.Text)
             {
                 case "ASCII":
-                    buff_full = Encoding.ASCII.GetBytes(richTextBox1.Text);
+                    buff_full = Encoding.ASCII.GetBytes(inputMessageTextBox.Text);
                     break;
                 case "UTF7":
-                    buff_full = Encoding.UTF7.GetBytes(richTextBox1.Text);
+                    buff_full = Encoding.UTF7.GetBytes(inputMessageTextBox.Text);
                     break;
                 case "UTF8":
-                    buff_full = Encoding.UTF8.GetBytes(richTextBox1.Text);
+                    buff_full = Encoding.UTF8.GetBytes(inputMessageTextBox.Text);
                     break;
                 case "Unicode":
-                    buff_full = Encoding.Unicode.GetBytes(richTextBox1.Text);
+                    buff_full = Encoding.Unicode.GetBytes(inputMessageTextBox.Text);
                     break;
                 default:
                     //
@@ -404,7 +404,7 @@ namespace Socket_XML_Send_Receive
             {
                 button5.Enabled = true;
                 button2.Enabled = true;
-                richTextBox1.ReadOnly = true;
+                inputMessageTextBox.ReadOnly = true;
                 button7.Enabled = false;
                 groupBox1.Enabled = true;
             }
@@ -413,7 +413,7 @@ namespace Socket_XML_Send_Receive
                 button5.Enabled = false;
                 button2.Enabled = false;
                 button7.Enabled = true;
-                richTextBox1.ReadOnly = false;
+                inputMessageTextBox.ReadOnly = false;
                 groupBox1.Enabled = false;
                 richTextBox4.Clear();
                 label3.Text = "";
@@ -422,7 +422,7 @@ namespace Socket_XML_Send_Receive
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1.SelectedIndex = 0;
+            encodingComboBox.SelectedIndex = 0;
             textBox1.Text = FindLocalIP();
             textBox4.Text = FindLocalIP();
         }
@@ -514,8 +514,8 @@ namespace Socket_XML_Send_Receive
                 label11.Text = fDialog.FileName.ToString();
                 try
                 {
-                    richTextBox1.Clear();
-                    richTextBox1.Text = File.ReadAllText(fDialog.FileName.ToString());
+                    inputMessageTextBox.Clear();
+                    inputMessageTextBox.Text = File.ReadAllText(fDialog.FileName.ToString());
                 }
                 catch (Exception ex)
                 {
@@ -526,7 +526,7 @@ namespace Socket_XML_Send_Receive
         }
         private void button7_Click(object sender, EventArgs e)
         {
-            richTextBox1.Clear();
+            inputMessageTextBox.Clear();
             richTextBox5.Clear();
         }
         private void button6_Click(object sender, EventArgs e)

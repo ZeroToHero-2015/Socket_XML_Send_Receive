@@ -33,7 +33,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.inputMessageTextBox = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
@@ -48,7 +48,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.encodingComboBox = new System.Windows.Forms.ComboBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.richTextBox4 = new System.Windows.Forms.RichTextBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -115,15 +115,15 @@
             this.sendButton.UseVisualStyleBackColor = true;
             this.sendButton.Click += new System.EventHandler(this.SendButtonClick);
             // 
-            // richTextBox1
+            // inputMessageTextBox
             // 
-            this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.richTextBox1.Location = new System.Drawing.Point(99, 107);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(456, 80);
-            this.richTextBox1.TabIndex = 13;
-            this.richTextBox1.Text = "";
+            this.inputMessageTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.inputMessageTextBox.Location = new System.Drawing.Point(99, 107);
+            this.inputMessageTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.inputMessageTextBox.Name = "inputMessageTextBox";
+            this.inputMessageTextBox.Size = new System.Drawing.Size(456, 80);
+            this.inputMessageTextBox.TabIndex = 13;
+            this.inputMessageTextBox.Text = "";
             // 
             // label3
             // 
@@ -268,20 +268,20 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "Encoding";
             // 
-            // comboBox1
+            // encodingComboBox
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.encodingComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.encodingComboBox.FormattingEnabled = true;
+            this.encodingComboBox.Items.AddRange(new object[] {
             "ASCII",
             "UTF7",
             "UTF8",
             "Unicode"});
-            this.comboBox1.Location = new System.Drawing.Point(99, 15);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(160, 24);
-            this.comboBox1.TabIndex = 1;
+            this.encodingComboBox.Location = new System.Drawing.Point(99, 15);
+            this.encodingComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.encodingComboBox.Name = "encodingComboBox";
+            this.encodingComboBox.Size = new System.Drawing.Size(160, 24);
+            this.encodingComboBox.TabIndex = 1;
             // 
             // checkBox1
             // 
@@ -451,7 +451,7 @@
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.richTextBox4);
             this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.encodingComboBox);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -466,7 +466,7 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.inputMessageTextBox);
             this.Controls.Add(this.sendButton);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
@@ -494,7 +494,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button sendButton;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox inputMessageTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.RichTextBox richTextBox2;
@@ -509,7 +509,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox encodingComboBox;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.RichTextBox richTextBox4;
         private System.Windows.Forms.CheckBox checkBox2;
