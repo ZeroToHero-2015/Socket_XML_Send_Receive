@@ -358,9 +358,9 @@ namespace Socket_XML_Send_Receive
             if (shouldAddMessageLength)
             {                
                 var requestPrefix = GetRequestPrefix(textBytes.Length);
-                var buffPartial = ConcatenateArrays(requestPrefix, textBytes);
-                return buffPartial;
+                return ConcatenateArrays(requestPrefix, textBytes);
             }
+
             return textBytes;
         }
 
@@ -374,9 +374,8 @@ namespace Socket_XML_Send_Receive
 
         private byte[] GetRequestPrefix(int byteArrayLength)
         {
-            int reqLenH2N = IPAddress.HostToNetworkOrder(byteArrayLength);
-            byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
-            return reqLenArray;
+            int lengthInNetworkOrder = IPAddress.HostToNetworkOrder(byteArrayLength);
+            return BitConverter.GetBytes(lengthInNetworkOrder);
         }
 
         private byte[] ConvertStringToBytes(string text, Encoding encoding)
