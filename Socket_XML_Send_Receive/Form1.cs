@@ -337,7 +337,7 @@ namespace Socket_XML_Send_Receive
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
                     var buff_full = ConvertStringToByteArrayUsingEncoding(inputMessageTextBox.Text, (Encoding)encodingComboBox.SelectedItem);
 
-                    server2.Send(GetBufferToSend(buff_full));
+                    server2.Send(GetBufferToSend(buff_full, addLengthToMessageCheckBox.Checked));
 
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
@@ -358,14 +358,13 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] GetBufferToSend(byte[] buff_full)
+        private byte[] GetBufferToSend(byte[] buff_full, bool shouldAddLengthToMessage)
         {
-            if (addLengthToMessageCheckBox.Checked)
+            if (shouldAddLengthToMessage)
             {
-                int reqLen = inputMessageTextBox.Text.Length;
-                int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen*2);
-                byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
-                byte[] buff_partial = new byte[reqLen*2 + 4];
+                int bufferLengthInNetworkOrder = IPAddress.HostToNetworkOrder(buff_full.Length);
+                byte[] reqLenArray = BitConverter.GetBytes(bufferLengthInNetworkOrder);
+                byte[] buff_partial = new byte[buff_full.Length + 4];
                 reqLenArray.CopyTo(buff_partial, 0);
                 buff_full.CopyTo(buff_partial, 4);
                 return buff_partial;
