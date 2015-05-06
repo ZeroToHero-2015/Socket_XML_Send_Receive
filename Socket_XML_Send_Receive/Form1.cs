@@ -335,7 +335,7 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    var buff_full = ConvertStringToByteArrayUsingEncoding();
+                    var buff_full = ConvertStringToByteArrayUsingEncoding(encodingComboBox.Text, inputMessageTextBox.Text);
                     if (checkBox1.Checked)
                     {
                         int reqLen = inputMessageTextBox.Text.Length;
@@ -369,22 +369,22 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] ConvertStringToByteArrayUsingEncoding()
+        private byte[] ConvertStringToByteArrayUsingEncoding(string encodingName, string inputMessage)
         {
             byte[] buff_full = null;
-            switch (encodingComboBox.Text)
+            switch (encodingName)
             {
                 case "ASCII":
-                    buff_full = Encoding.ASCII.GetBytes(inputMessageTextBox.Text);
+                    buff_full = Encoding.ASCII.GetBytes(inputMessage);
                     break;
                 case "UTF7":
-                    buff_full = Encoding.UTF7.GetBytes(inputMessageTextBox.Text);
+                    buff_full = Encoding.UTF7.GetBytes(inputMessage);
                     break;
                 case "UTF8":
-                    buff_full = Encoding.UTF8.GetBytes(inputMessageTextBox.Text);
+                    buff_full = Encoding.UTF8.GetBytes(inputMessage);
                     break;
                 case "Unicode":
-                    buff_full = Encoding.Unicode.GetBytes(inputMessageTextBox.Text);
+                    buff_full = Encoding.Unicode.GetBytes(inputMessage);
                     break;
                 default:
                     //
