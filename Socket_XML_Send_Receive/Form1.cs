@@ -339,30 +339,15 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
+
+                    byte[] buff_full = null;
+                    buff_full = ConvertStringToBytes();
+
                     if (checkBox1.Checked)
                     {
-                        byte[] buff_full = null;
                         int reqLen = richTextBox1.Text.Length;
                         int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
                         byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
-                        switch (comboBox1.Text)
-                        {
-                            case "ASCII":
-                                buff_full = Encoding.ASCII.GetBytes(richTextBox1.Text);
-                                break;
-                            case "UTF7":
-                                buff_full = Encoding.UTF7.GetBytes(richTextBox1.Text);
-                                break;
-                            case "UTF8":
-                                buff_full = Encoding.UTF8.GetBytes(richTextBox1.Text);
-                                break;
-                            case "Unicode":
-                                buff_full = Encoding.Unicode.GetBytes(richTextBox1.Text);
-                                break;
-                            default:
-                                //
-                                break;
-                        };
                         byte[] buff_partial = new byte[reqLen * 2 + 4];
                         reqLenArray.CopyTo(buff_partial, 0);
                         buff_full.CopyTo(buff_partial, 4);
@@ -370,25 +355,6 @@ namespace Socket_XML_Send_Receive
                     }
                     else
                     {
-                        byte[] buff_full = null;
-                        switch (comboBox1.Text)
-                        {
-                            case "ASCII":
-                                buff_full = Encoding.ASCII.GetBytes(richTextBox1.Text);
-                                break;
-                            case "UTF7":
-                                buff_full = Encoding.UTF7.GetBytes(richTextBox1.Text);
-                                break;
-                            case "UTF8":
-                                buff_full = Encoding.UTF8.GetBytes(richTextBox1.Text);
-                                break;
-                            case "Unicode":
-                                buff_full = Encoding.Unicode.GetBytes(richTextBox1.Text);
-                                break;
-                            default:
-                                //
-                                break;
-                        };
                         server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);                             
                     }
                     Debug("CLIENT: date expediate de la client la server socket.");
@@ -408,6 +374,31 @@ namespace Socket_XML_Send_Receive
                     };
                 };
             }
+        }
+
+        private byte[] ConvertStringToBytes()
+        {
+            byte[] stringBytes = null;
+            switch (comboBox1.Text)
+            {
+                case "ASCII":
+                    stringBytes = Encoding.ASCII.GetBytes(richTextBox1.Text);
+                    break;
+                case "UTF7":
+                    stringBytes = Encoding.UTF7.GetBytes(richTextBox1.Text);
+                    break;
+                case "UTF8":
+                    stringBytes = Encoding.UTF8.GetBytes(richTextBox1.Text);
+                    break;
+                case "Unicode":
+                    stringBytes = Encoding.Unicode.GetBytes(richTextBox1.Text);
+                    break;
+                default:
+                    //
+                    break;
+            }
+
+            return stringBytes;
         }
 
         // metode de baza
