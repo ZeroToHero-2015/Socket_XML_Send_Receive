@@ -331,8 +331,8 @@ namespace Socket_XML_Send_Receive
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ipExt + ":" + portSendExt + ">");
 
-                    var textBytes = ConvertStringToBytes(richTextBox1.Text, (Encoding)comboBox1.SelectedItem);
-                    server2.Send(CreateByteArrayToSend(textBytes, addMessageLengthCheckBox.Checked), SocketFlags.None);
+                    var byteArrayToSend = GetByteArrayToSend(richTextBox1.Text, (Encoding)comboBox1.SelectedItem, addMessageLengthCheckBox.Checked);
+                    server2.Send(byteArrayToSend, SocketFlags.None);
 
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
@@ -353,10 +353,16 @@ namespace Socket_XML_Send_Receive
             }
         }
 
+        private byte[] GetByteArrayToSend(string message, Encoding encoding, bool shouldAddMessageLength)
+        {
+            var textBytes = ConvertStringToBytes(message, encoding);
+            return CreateByteArrayToSend(textBytes, shouldAddMessageLength);
+        }
+
         private byte[] CreateByteArrayToSend(byte[] textBytes, bool shouldAddMessageLength)
         {
             if (shouldAddMessageLength)
-            {                
+            {
                 var requestPrefix = GetRequestPrefix(textBytes.Length);
                 return ConcatenateArrays(requestPrefix, textBytes);
             }
