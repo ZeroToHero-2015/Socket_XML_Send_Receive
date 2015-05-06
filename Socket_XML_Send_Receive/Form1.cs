@@ -394,7 +394,7 @@ namespace Socket_XML_Send_Receive
                     stringBytes = Encoding.Unicode.GetBytes(text);
                     break;
                 default:
-                    //
+                    throw new ArgumentException("Unknown encoding: " + encodingName, "encodingName");
                     break;
             }
 
