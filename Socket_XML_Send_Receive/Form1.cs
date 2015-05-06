@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO; // for File stream
 using System.Net; // for IpEndPoint
 using System.Net.Sockets; // for Sockets
+using System.Text;
 using System.Threading; // for Threads
+using System.Windows.Forms;
 using System.Xml; // for XmlTextReader and XmlValidatingReader
 using System.Xml.Schema; // for XmlSchemaCollection
 
@@ -19,13 +14,12 @@ namespace Socket_XML_Send_Receive
     {
         // variabile, constante
         private Socket client1, server1, server2;
-        string ip_ext, dt, ClientIP_int;
+        string ip_ext, dt;
         int port_send_ext, port_listen_int;
         private Thread workerThread1;
         private const int BUFSIZE_FULL = 8192; // dimensiunea completa a buffer-ului pentru socket
         private const int BUFSIZE = BUFSIZE_FULL - 4;
         private const int BACKLOG = 5; // dimensiunea cozii de asteptare pentru socket
-        private const int TIMELIMIT = 30000; // timpul limita de ascultare pentru un client (3 sec.)
         private static bool isValid = true;      // validare cu schema a unui XML
         // XmlSchemaCollection cache = new XmlSchemaCollection(); //cache XSD schema
         // cache.Add("urn:MyNamespace", "C:\\MyFolder\\Product.xsd"); // add namespace XSD schema
@@ -41,7 +35,7 @@ namespace Socket_XML_Send_Receive
         private string FindLocalIP()
         {
             string strHostName = "";
-            strHostName = System.Net.Dns.GetHostName();
+            strHostName = Dns.GetHostName();
             IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(strHostName);
             IPAddress[] addr = ipEntry.AddressList;
             return addr[addr.Length - 1].ToString();
@@ -65,7 +59,9 @@ namespace Socket_XML_Send_Receive
         private bool Validation(string file)
         {
             XmlTextReader r = new XmlTextReader(file);
+#pragma warning disable 618
             XmlValidatingReader v = new XmlValidatingReader(r);
+#pragma warning restore 618
             //v.Schemas.Add(cache);
             if (radioButton1.Checked)
             {
@@ -77,7 +73,9 @@ namespace Socket_XML_Send_Receive
             }
             else //(radioButton3.Checked)
             {
+#pragma warning disable 618
                 v.ValidationType = ValidationType.XDR;
+#pragma warning restore 618
             };
             v.ValidationEventHandler += new ValidationEventHandler(MyValidationEventHandler);
             while (v.Read())
@@ -119,14 +117,12 @@ namespace Socket_XML_Send_Receive
                 while (true)
                 {
                     client1 = null;
-                    ClientIP_int = null;
                     int bytesRcvd = 0, totalBytesReceived = 0;
                     try
                     {
                         using (client1 = server1.Accept())
                         {
-                            Debug("SERVER: client socket <" + client1.RemoteEndPoint.ToString() + "> conectat");
-                            ClientIP_int = (client1.RemoteEndPoint.ToString()).Split(':')[0];
+                            Debug("SERVER: client socket <" + client1.RemoteEndPoint + "> conectat");
                             while ((bytesRcvd = client1.Receive(rcvBuffer_full, 0, rcvBuffer_full.Length, SocketFlags.None)) > 0)
                             {
                                 if (totalBytesReceived >= rcvBuffer_full.Length)
