@@ -46,7 +46,7 @@ namespace Socket_XML_Send_Receive
             IPAddress[] addr = ipEntry.AddressList;
             return addr[addr.Length - 1].ToString();
         }
-        private void Debug (string str)
+        private void Debug(string str)
         {
             Action appendToTextBox = () =>
             {
@@ -93,7 +93,7 @@ namespace Socket_XML_Send_Receive
                 return true; //Document is valid
             }
             else
-            {                                                                     
+            {
                 return false;//Document is invalid
             };
         }
@@ -141,7 +141,7 @@ namespace Socket_XML_Send_Receive
                                 switch (comboBox1.Text)
                                 {
                                     case "ASCII":
-                                        if ((checkBox2.Checked) && (label11.Text!=""))
+                                        if ((checkBox2.Checked) && (label11.Text != ""))
                                         {
                                             if (Validation(label11.Text))
                                             {
@@ -341,7 +341,7 @@ namespace Socket_XML_Send_Receive
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
 
                     byte[] buff_full = null;
-                    buff_full = ConvertStringToBytes(richTextBox1.Text);
+                    buff_full = ConvertStringToBytes(richTextBox1.Text, comboBox1.Text);
 
                     if (checkBox1.Checked)
                     {
@@ -351,11 +351,11 @@ namespace Socket_XML_Send_Receive
                         byte[] buff_partial = new byte[reqLen * 2 + 4];
                         reqLenArray.CopyTo(buff_partial, 0);
                         buff_full.CopyTo(buff_partial, 4);
-                        server2.Send(buff_partial, 0, buff_partial.Length, SocketFlags.None);           
+                        server2.Send(buff_partial, 0, buff_partial.Length, SocketFlags.None);
                     }
                     else
                     {
-                        server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);                             
+                        server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);
                     }
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
@@ -376,10 +376,10 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] ConvertStringToBytes(string text)
+        private byte[] ConvertStringToBytes(string text, string encodingName)
         {
             byte[] stringBytes = null;
-            switch (comboBox1.Text)
+            switch (encodingName)
             {
                 case "ASCII":
                     stringBytes = Encoding.ASCII.GetBytes(text);
