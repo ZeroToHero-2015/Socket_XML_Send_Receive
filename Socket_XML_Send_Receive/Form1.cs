@@ -366,39 +366,7 @@ namespace Socket_XML_Send_Receive
                         byte[] buff_partial = new byte[reqLen * 2 + 4];
                         reqLenArray.CopyTo(buff_partial, 0);
                         buff_full.CopyTo(buff_partial, 4);
-                        server2.Send(buff_partial, 0, buff_partial.Length, SocketFlags.None);
-                        if (checkBox3.Checked)
-                        {
-                            /*
-                            byte[] buff_receive_full = new byte[BUFSIZE_FULL];
-                            byte[] buff_receive_partial = new byte[BUFSIZE];
-                            server2.Receive(buff_receive_full, 0, buff_receive_full.Length, SocketFlags.None);
-                            Array.Copy(buff_receive_full, 4, buff_receive_partial, 0, buff_receive_full.Length - 4);
-                            switch (comboBox1.Text)
-                            {
-                                case "ASCII":
-                                    richTextBox5.Text = Encoding.ASCII.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "UTF7":
-                                    richTextBox5.Text = Encoding.UTF7.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "UTF8":
-                                    richTextBox5.Text = Encoding.UTF8.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "Unicode":
-                                    richTextBox5.Text = Encoding.Unicode.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                default:
-                                    //
-                                    break;
-                            };
-                            // cod de la Gino prin care fac trecerea byte > char > string
-                            //server2.Receive(buff_receive, SocketFlags.None);
-                            //char[] result = System.Text.Encoding.ASCII.GetChars(buff_receive);
-                            //string resultString = new String(result);     
-                            Debug("CLIENT: receptionat echo data de la server socket.");
-                            */ 
-                        }; 
+                        server2.Send(buff_partial, 0, buff_partial.Length, SocketFlags.None);           
                     }
                     else
                     {
@@ -421,40 +389,8 @@ namespace Socket_XML_Send_Receive
                                 //
                                 break;
                         };
-                        server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);
-                        if (checkBox3.Checked)
-                        {
-                            /*
-                            byte[] buff_receive_full = new byte[BUFSIZE_FULL];
-                            byte[] buff_receive_partial = new byte[BUFSIZE];
-                            server2.Receive(buff_receive_full, 0, buff_receive_full.Length, SocketFlags.None);
-                            Array.Copy(buff_receive_full, 4, buff_receive_partial, 0, buff_receive_full.Length - 4);
-                            switch (comboBox1.Text)
-                            {
-                                case "ASCII":
-                                    richTextBox5.Text = Encoding.ASCII.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "UTF7":
-                                    richTextBox5.Text = Encoding.UTF7.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "UTF8":
-                                    richTextBox5.Text = Encoding.UTF8.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                case "Unicode":
-                                    richTextBox5.Text = Encoding.Unicode.GetString(buff_receive_partial, 0, buff_receive_partial.Length);
-                                    break;
-                                default:
-                                    //
-                                    break;
-                            };
-                            // cod de la Gino prin care fac trecerea byte > char > string
-                            //server2.Receive(buff_receive, SocketFlags.None);
-                            //char[] result = System.Text.Encoding.ASCII.GetChars(buff_receive);
-                            //string resultString = new String(result);     
-                            Debug("CLIENT: receptionat echo data de la server socket.");
-                            */ 
-                        };              
-                    };
+                        server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);                             
+                    }
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
                 catch (Exception ex)
