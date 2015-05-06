@@ -1,4 +1,6 @@
-﻿namespace Socket_XML_Send_Receive
+﻿using System.Text;
+
+namespace Socket_XML_Send_Receive
 {
     partial class Form1
     {
@@ -273,15 +275,16 @@
             this.encodingComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.encodingComboBox.FormattingEnabled = true;
             this.encodingComboBox.Items.AddRange(new object[] {
-            "ASCII",
-            "UTF7",
-            "UTF8",
-            "Unicode"});
+            Encoding.ASCII,
+            Encoding.UTF7,
+            Encoding.UTF8,
+            Encoding.Unicode});
             this.encodingComboBox.Location = new System.Drawing.Point(99, 15);
             this.encodingComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.encodingComboBox.Name = "encodingComboBox";
             this.encodingComboBox.Size = new System.Drawing.Size(160, 24);
             this.encodingComboBox.TabIndex = 1;
+            this.encodingComboBox.DisplayMember = "EncodingName";
             // 
             // checkBox1
             // 

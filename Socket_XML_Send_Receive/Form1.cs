@@ -335,7 +335,7 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    var buff_full = ConvertStringToByteArrayUsingEncoding(inputMessageTextBox.Text, encodingComboBox.Text);
+                    var buff_full = ConvertStringToByteArrayUsingEncoding(inputMessageTextBox.Text, (Encoding)encodingComboBox.SelectedItem);
                     if (checkBox1.Checked)
                     {
                         int reqLen = inputMessageTextBox.Text.Length;
@@ -369,27 +369,9 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] ConvertStringToByteArrayUsingEncoding(string inputMessage, string encodingName)
+        private byte[] ConvertStringToByteArrayUsingEncoding(string inputMessage, Encoding encoding)
         {
-            byte[] byteArray;
-            switch (encodingName)
-            {
-                case "ASCII":
-                    byteArray = Encoding.ASCII.GetBytes(inputMessage);
-                    break;
-                case "UTF7":
-                    byteArray = Encoding.UTF7.GetBytes(inputMessage);
-                    break;
-                case "UTF8":
-                    byteArray = Encoding.UTF8.GetBytes(inputMessage);
-                    break;
-                case "Unicode":
-                    byteArray = Encoding.Unicode.GetBytes(inputMessage);
-                    break;
-                default:
-                    throw new ArgumentException("Unknown encoding name:" + encodingName, "encodingName");
-            }
-            return byteArray;
+            return encoding.GetBytes(inputMessage);
         }
 
         // metode de baza
