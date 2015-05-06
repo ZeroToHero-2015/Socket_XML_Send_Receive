@@ -327,7 +327,7 @@ namespace Socket_XML_Send_Receive
                 };
             };
         }
-        private void Sender()
+        private void Send()
         {
             ip_ext = textBox1.Text;
             port_send_ext = System.Convert.ToInt32(textBox2.Text);
@@ -572,7 +572,7 @@ namespace Socket_XML_Send_Receive
         }
         private void sendButton_Click(object sender, EventArgs e)
         {
-            Sender();
+            Send();
         }
         private void button4_Click(object sender, EventArgs e)
         {
