@@ -332,7 +332,7 @@ namespace Socket_XML_Send_Receive
                     Debug("CLIENT: conectat la server socket <" + ipExt + ":" + portSendExt + ">");
 
                     var textBytes = ConvertStringToBytes(richTextBox1.Text, (Encoding) comboBox1.SelectedItem);
-                    server2.Send(CreateByteArrayToSend(textBytes), SocketFlags.None);
+                    server2.Send(CreateByteArrayToSend(textBytes, addMessageLengthCheckBox.Checked), SocketFlags.None);
                    
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
@@ -353,9 +353,9 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] CreateByteArrayToSend(byte[] textBytes)
+        private byte[] CreateByteArrayToSend(byte[] textBytes,bool shouldAddMessageLength)
         {
-            if (addMessageLengthCheckBox.Checked)
+            if (shouldAddMessageLength)
             {
                 int reqLen = richTextBox1.Text.Length;
                 int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
