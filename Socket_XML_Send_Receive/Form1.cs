@@ -21,6 +21,7 @@ namespace Socket_XML_Send_Receive
         private const int BUFSIZE = BUFSIZE_FULL - 4;
         private const int BACKLOG = 5; // dimensiunea cozii de asteptare pentru socket
         private static bool isValid = true;      // validare cu schema a unui XML
+        
         // XmlSchemaCollection cache = new XmlSchemaCollection(); //cache XSD schema
         // cache.Add("urn:MyNamespace", "C:\\MyFolder\\Product.xsd"); // add namespace XSD schema
 
@@ -332,7 +333,11 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    var bufferToSend = GetBufferToSendFromString(inputMessageTextBox.Text, (Encoding) encodingComboBox.SelectedItem, addLengthToMessageCheckBox.Checked);
+                    var bufferCreator = new BufferCreator();
+                    var bufferToSend = bufferCreator.GetBufferToSendFromString(
+                        inputMessageTextBox.Text, 
+                        (Encoding) encodingComboBox.SelectedItem, 
+                        addLengthToMessageCheckBox.Checked);
                     server2.Send(bufferToSend);
 
                     Debug("CLIENT: date expediate de la client la server socket.");
@@ -354,43 +359,12 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] GetBufferToSendFromString(string inputMessage, Encoding encoding, bool shouldAddLengthToMessage)
-        {
-            var messageArray = ConvertStringToByteArrayUsingEncoding(inputMessage, encoding);
-
-            var bufferToSend = GetBufferToSend(messageArray, shouldAddLengthToMessage);
-            return bufferToSend;
-        }
-
-        private byte[] GetBufferToSend(byte[] messageArray, bool shouldAddLengthToMessage)
-        {
-            if (shouldAddLengthToMessage)
-            {
-                int bufferLengthInNetworkOrder = IPAddress.HostToNetworkOrder(messageArray.Length);
-                byte[] reqLenArray = BitConverter.GetBytes(bufferLengthInNetworkOrder);
-                return ConcatenateArrays(reqLenArray, messageArray);
-            }
-            return messageArray;
-        }
-
-        private byte[] ConcatenateArrays(byte[] firstArray, byte[] secondArray)
-        {
-            var resultArray = new byte[firstArray.Length + secondArray.Length];
-            firstArray.CopyTo(resultArray, 0);
-            secondArray.CopyTo(resultArray, firstArray.Length);
-            return resultArray;
-        }
-
-        private byte[] ConvertStringToByteArrayUsingEncoding(string inputMessage, Encoding encoding)
-        {
-            return encoding.GetBytes(inputMessage);
-        }
-
         // metode de baza
         public Form1()
         {
             InitializeComponent();
         }
+
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox2.Checked)
