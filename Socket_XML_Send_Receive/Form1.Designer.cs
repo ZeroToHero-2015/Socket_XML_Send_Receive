@@ -42,7 +42,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.debugTextBox = new System.Windows.Forms.RichTextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -208,14 +208,14 @@
             // 
             // richTextBox3
             // 
-            this.richTextBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.richTextBox3.Location = new System.Drawing.Point(99, 511);
-            this.richTextBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(456, 114);
-            this.richTextBox3.TabIndex = 22;
-            this.richTextBox3.Text = "";
+            this.debugTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.debugTextBox.Location = new System.Drawing.Point(99, 511);
+            this.debugTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.debugTextBox.Name = "richTextBox3";
+            this.debugTextBox.ReadOnly = true;
+            this.debugTextBox.Size = new System.Drawing.Size(456, 114);
+            this.debugTextBox.TabIndex = 22;
+            this.debugTextBox.Text = "";
             // 
             // button4
             // 
@@ -457,7 +457,7 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.richTextBox3);
+            this.Controls.Add(this.debugTextBox);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.textBox3);
@@ -503,7 +503,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.RichTextBox debugTextBox;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;

@@ -51,11 +51,11 @@ namespace Socket_XML_Send_Receive
             Action appendToTextBox = () =>
             {
                 dt = GetCurrentDT();
-                richTextBox3.AppendText(dt + " - " + str + ".\n");
-                richTextBox3.ScrollToCaret();
+                debugTextBox.AppendText(dt + " - " + str + ".\n");
+                debugTextBox.ScrollToCaret();
             };
 
-            richTextBox3.Invoke(appendToTextBox);
+            debugTextBox.Invoke(appendToTextBox);
         }
         public void MyValidationEventHandler(object sender, ValidationEventArgs args)
         {
@@ -576,7 +576,7 @@ namespace Socket_XML_Send_Receive
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            richTextBox3.Clear();
+            debugTextBox.Clear();
         }
         private void button5_Click(object sender, EventArgs e)
         {
