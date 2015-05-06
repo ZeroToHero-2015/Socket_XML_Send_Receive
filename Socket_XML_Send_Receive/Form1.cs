@@ -40,7 +40,7 @@ namespace Socket_XML_Send_Receive
             IPAddress[] addr = ipEntry.AddressList;
             return addr[addr.Length - 1].ToString();
         }
-        private void Debug (string str)
+        private void Debug(string str)
         {
             Action appendToTextBox = () =>
             {
@@ -137,7 +137,7 @@ namespace Socket_XML_Send_Receive
                                 switch (encodingComboBox.Text)
                                 {
                                     case "ASCII":
-                                        if ((checkBox2.Checked) && (label11.Text!=""))
+                                        if ((checkBox2.Checked) && (label11.Text != ""))
                                         {
                                             if (Validation(label11.Text))
                                             {
@@ -335,7 +335,7 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    var buff_full = ConvertStringToByteArrayUsingEncoding(encodingComboBox.Text, inputMessageTextBox.Text);
+                    var buff_full = ConvertStringToByteArrayUsingEncoding(inputMessageTextBox.Text, encodingComboBox.Text);
                     if (checkBox1.Checked)
                     {
                         int reqLen = inputMessageTextBox.Text.Length;
@@ -369,28 +369,27 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] ConvertStringToByteArrayUsingEncoding(string encodingName, string inputMessage)
+        private byte[] ConvertStringToByteArrayUsingEncoding(string inputMessage, string encodingName)
         {
-            byte[] buff_full = null;
+            byte[] byteArray;
             switch (encodingName)
             {
                 case "ASCII":
-                    buff_full = Encoding.ASCII.GetBytes(inputMessage);
+                    byteArray = Encoding.ASCII.GetBytes(inputMessage);
                     break;
                 case "UTF7":
-                    buff_full = Encoding.UTF7.GetBytes(inputMessage);
+                    byteArray = Encoding.UTF7.GetBytes(inputMessage);
                     break;
                 case "UTF8":
-                    buff_full = Encoding.UTF8.GetBytes(inputMessage);
+                    byteArray = Encoding.UTF8.GetBytes(inputMessage);
                     break;
                 case "Unicode":
-                    buff_full = Encoding.Unicode.GetBytes(inputMessage);
+                    byteArray = Encoding.Unicode.GetBytes(inputMessage);
                     break;
                 default:
-                    //
-                    break;
+                    throw new ArgumentException("Unknown encoding name:" + encodingName, "encodingName");
             }
-            return buff_full;
+            return byteArray;
         }
 
         // metode de baza
