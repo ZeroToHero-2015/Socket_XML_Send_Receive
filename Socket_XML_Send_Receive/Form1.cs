@@ -91,7 +91,7 @@ namespace Socket_XML_Send_Receive
                 return true; //Document is valid
             }
             return false;//Document is invalid
-            
+
         }
         private void Listen()
         {
@@ -203,7 +203,7 @@ namespace Socket_XML_Send_Receive
                                             richTextBox2.Text = Encoding.Unicode.GetString(rcvBufferPartial, 0, (totalBytesReceived - 4));
                                         }
                                         break;
-                                        //
+                                    //
                                 }
                                 Debug("SERVER: receptionat " + (totalBytesReceived - 4) + " bytes");
                                 if (checkBox3.Checked)
@@ -286,7 +286,7 @@ namespace Socket_XML_Send_Receive
                                             richTextBox2.Text = Encoding.Unicode.GetString(rcvBufferFull, 0, totalBytesReceived);
                                         }
                                         break;
-                                        //
+                                    //
                                 }
                                 Debug("SERVER: receptionat " + totalBytesReceived + " bytes");
                                 if (checkBox3.Checked)
@@ -331,9 +331,9 @@ namespace Socket_XML_Send_Receive
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ipExt + ":" + portSendExt + ">");
 
-                    var textBytes = ConvertStringToBytes(richTextBox1.Text, (Encoding) comboBox1.SelectedItem);
+                    var textBytes = ConvertStringToBytes(richTextBox1.Text, (Encoding)comboBox1.SelectedItem);
                     server2.Send(CreateByteArrayToSend(textBytes, addMessageLengthCheckBox.Checked), SocketFlags.None);
-                   
+
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
                 catch (Exception ex)
@@ -353,25 +353,36 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] CreateByteArrayToSend(byte[] textBytes,bool shouldAddMessageLength)
+        private byte[] CreateByteArrayToSend(byte[] textBytes, bool shouldAddMessageLength)
         {
             if (shouldAddMessageLength)
-            {
-                int reqLen = richTextBox1.Text.Length;
-                int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
-                byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
-                var buffPartial = new byte[reqLen * 2 + 4];
-                reqLenArray.CopyTo(buffPartial, 0);
-                textBytes.CopyTo(buffPartial, 4);
+            {                
+                var requestPrefix = GetRequestPrefix(textBytes.Length);
+                var buffPartial = ConcatenateArrays(requestPrefix, textBytes);
                 return buffPartial;
             }
             return textBytes;
         }
 
+        private byte[] ConcatenateArrays(byte[] firstArray, byte[] secondArray)
+        {
+            var bigArray = new byte[firstArray.Length + secondArray.Length];
+            firstArray.CopyTo(bigArray, 0);
+            secondArray.CopyTo(bigArray, firstArray.Length);
+            return bigArray;
+        }
+
+        private byte[] GetRequestPrefix(int byteArrayLength)
+        {
+            int reqLenH2N = IPAddress.HostToNetworkOrder(byteArrayLength);
+            byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
+            return reqLenArray;
+        }
+
         private byte[] ConvertStringToBytes(string text, Encoding encoding)
         {
             byte[] stringBytes = encoding.GetBytes(text);
-            
+
             return stringBytes;
         }
 
