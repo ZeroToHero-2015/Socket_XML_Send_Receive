@@ -112,7 +112,7 @@ namespace Socket_XML_Send_Receive
                 catch (Exception ex)
                 {
                     Debug("SERVER: probleme creare server socket <" + textBox4.Text + ":" + port_listen_int.ToString() + ">");
-                    //Debug(ex.ToString());
+                    Debug(ex.ToString());
                 };
                 while (true)
                 {
@@ -311,7 +311,7 @@ namespace Socket_XML_Send_Receive
                     }
                     catch (Exception ex)
                     {
-                        //Debug(ex.ToString());
+                        Debug(ex.ToString());
                     }
                     finally
                     {
@@ -456,7 +456,7 @@ namespace Socket_XML_Send_Receive
                 catch (Exception ex)
                 {
                     Debug("CLIENT: probleme conectare/trimitere de la client la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    //Debug(ex.ToString());
+                    Debug(ex.ToString());
                 }
                 finally
                 {
@@ -529,7 +529,7 @@ namespace Socket_XML_Send_Receive
                 catch (Exception ex)
                 {
                     Debug("Probleme incarcare/deschidere fisier XSD/DTD");
-                    //Debug(ex.ToString());
+                    Debug(ex.ToString());
                 };
             };
         }
@@ -601,7 +601,7 @@ namespace Socket_XML_Send_Receive
                 catch (Exception ex)
                 {
                     Debug("Probleme incarcare/deschidere fisier XML");
-                    //Debug(ex.ToString());
+                    Debug(ex.ToString());
                 };
             };
         }
