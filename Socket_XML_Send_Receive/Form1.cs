@@ -21,6 +21,9 @@ namespace Socket_XML_Send_Receive
         private const int Bufsize = BufsizeFull - 4;
         private const int Backlog = 5; // dimensiunea cozii de asteptare pentru socket
         private static bool isValid = true;      // validare cu schema a unui XML
+
+
+
         // XmlSchemaCollection cache = new XmlSchemaCollection(); //cache XSD schema
         // cache.Add("urn:MyNamespace", "C:\\MyFolder\\Product.xsd"); // add namespace XSD schema
 
@@ -330,8 +333,8 @@ namespace Socket_XML_Send_Receive
                     var serverEndPoint = new IPEndPoint(IPAddress.Parse(ipExt), portSendExt);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ipExt + ":" + portSendExt + ">");
-
-                    var byteArrayToSend = GetByteArrayToSend(richTextBox1.Text, (Encoding)comboBox1.SelectedItem, addMessageLengthCheckBox.Checked);
+                    var requestCreator = new RequestCreator();
+                    var byteArrayToSend = requestCreator.GetByteArrayToSend(richTextBox1.Text, (Encoding)comboBox1.SelectedItem, addMessageLengthCheckBox.Checked);
                     server2.Send(byteArrayToSend, SocketFlags.None);
 
                     Debug("CLIENT: date expediate de la client la server socket.");
@@ -353,49 +356,12 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] GetByteArrayToSend(string message, Encoding encoding, bool shouldAddMessageLength)
-        {
-            var textBytes = ConvertStringToBytes(message, encoding);
-            return CreateByteArrayToSend(textBytes, shouldAddMessageLength);
-        }
-
-        private byte[] CreateByteArrayToSend(byte[] textBytes, bool shouldAddMessageLength)
-        {
-            if (shouldAddMessageLength)
-            {
-                var requestPrefix = GetRequestPrefix(textBytes.Length);
-                return ConcatenateArrays(requestPrefix, textBytes);
-            }
-
-            return textBytes;
-        }
-
-        private byte[] ConcatenateArrays(byte[] firstArray, byte[] secondArray)
-        {
-            var bigArray = new byte[firstArray.Length + secondArray.Length];
-            firstArray.CopyTo(bigArray, 0);
-            secondArray.CopyTo(bigArray, firstArray.Length);
-            return bigArray;
-        }
-
-        private byte[] GetRequestPrefix(int byteArrayLength)
-        {
-            int lengthInNetworkOrder = IPAddress.HostToNetworkOrder(byteArrayLength);
-            return BitConverter.GetBytes(lengthInNetworkOrder);
-        }
-
-        private byte[] ConvertStringToBytes(string text, Encoding encoding)
-        {
-            byte[] stringBytes = encoding.GetBytes(text);
-
-            return stringBytes;
-        }
-
         // metode de baza
         public Form1()
         {
             InitializeComponent();
         }
+
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox2.Checked)
