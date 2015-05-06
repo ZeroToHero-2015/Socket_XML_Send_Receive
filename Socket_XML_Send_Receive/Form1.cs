@@ -136,7 +136,7 @@ namespace Socket_XML_Send_Receive
                                 totalBytesReceived += bytesRcvd;
                             };
                             Array.Copy(rcvBuffer_full, 4, rcvBuffer_partial, 0, totalBytesReceived - 4);
-                            if (checkBox1.Checked)
+                            if (addMessageLengthCheckBox.Checked)
                             {
                                 switch (comboBox1.Text)
                                 {
@@ -340,8 +340,7 @@ namespace Socket_XML_Send_Receive
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
 
-                    byte[] textBytes = null;
-                    textBytes = ConvertStringToBytes(richTextBox1.Text, (Encoding) comboBox1.SelectedItem);
+                    var textBytes = ConvertStringToBytes(richTextBox1.Text, (Encoding) comboBox1.SelectedItem);
                     server2.Send(CreateByteArrayToSend(textBytes), SocketFlags.None);
                    
                     Debug("CLIENT: date expediate de la client la server socket.");
@@ -365,7 +364,7 @@ namespace Socket_XML_Send_Receive
 
         private byte[] CreateByteArrayToSend(byte[] textBytes)
         {
-            if (checkBox1.Checked)
+            if (addMessageLengthCheckBox.Checked)
             {
                 int reqLen = richTextBox1.Text.Length;
                 int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);

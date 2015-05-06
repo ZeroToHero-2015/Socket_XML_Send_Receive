@@ -51,7 +51,7 @@ namespace Socket_XML_Send_Receive
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.addMessageLengthCheckBox = new System.Windows.Forms.CheckBox();
             this.richTextBox4 = new System.Windows.Forms.RichTextBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
@@ -286,16 +286,16 @@ namespace Socket_XML_Send_Receive
             this.comboBox1.Size = new System.Drawing.Size(160, 24);
             this.comboBox1.TabIndex = 1;
             // 
-            // checkBox1
+            // addMessageLengthCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(505, 17);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(81, 21);
-            this.checkBox1.TabIndex = 2;
-            this.checkBox1.Text = "LE > BE";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.addMessageLengthCheckBox.AutoSize = true;
+            this.addMessageLengthCheckBox.Location = new System.Drawing.Point(505, 17);
+            this.addMessageLengthCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addMessageLengthCheckBox.Name = "addMessageLengthCheckBox";
+            this.addMessageLengthCheckBox.Size = new System.Drawing.Size(81, 21);
+            this.addMessageLengthCheckBox.TabIndex = 2;
+            this.addMessageLengthCheckBox.Text = "Add Length";
+            this.addMessageLengthCheckBox.UseVisualStyleBackColor = true;
             // 
             // richTextBox4
             // 
@@ -453,7 +453,7 @@ namespace Socket_XML_Send_Receive
             this.Controls.Add(this.button5);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.richTextBox4);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.addMessageLengthCheckBox);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -513,7 +513,7 @@ namespace Socket_XML_Send_Receive
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox addMessageLengthCheckBox;
         private System.Windows.Forms.RichTextBox richTextBox4;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button button5;
