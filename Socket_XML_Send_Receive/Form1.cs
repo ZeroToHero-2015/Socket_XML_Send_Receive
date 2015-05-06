@@ -570,7 +570,7 @@ namespace Socket_XML_Send_Receive
                 };
             };
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void sendButton_Click(object sender, EventArgs e)
         {
             Sender();
         }
