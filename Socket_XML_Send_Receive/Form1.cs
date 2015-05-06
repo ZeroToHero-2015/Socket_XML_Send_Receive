@@ -340,23 +340,10 @@ namespace Socket_XML_Send_Receive
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
 
-                    byte[] buff_full = null;
-                    buff_full = ConvertStringToBytes(richTextBox1.Text, (Encoding) comboBox1.SelectedItem);
-
-                    if (checkBox1.Checked)
-                    {
-                        int reqLen = richTextBox1.Text.Length;
-                        int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
-                        byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
-                        byte[] buff_partial = new byte[reqLen * 2 + 4];
-                        reqLenArray.CopyTo(buff_partial, 0);
-                        buff_full.CopyTo(buff_partial, 4);
-                        server2.Send(buff_partial, 0, buff_partial.Length, SocketFlags.None);
-                    }
-                    else
-                    {
-                        server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);
-                    }
+                    byte[] textBytes = null;
+                    textBytes = ConvertStringToBytes(richTextBox1.Text, (Encoding) comboBox1.SelectedItem);
+                    server2.Send(CreateByteArrayToSend(textBytes), SocketFlags.None);
+                   
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
                 catch (Exception ex)
@@ -376,6 +363,24 @@ namespace Socket_XML_Send_Receive
             }
         }
 
+        private byte[] CreateByteArrayToSend(byte[] textBytes)
+        {
+            if (checkBox1.Checked)
+            {
+                int reqLen = richTextBox1.Text.Length;
+                int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
+                byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
+                byte[] buff_partial = new byte[reqLen * 2 + 4];
+                reqLenArray.CopyTo(buff_partial, 0);
+                textBytes.CopyTo(buff_partial, 4);
+                return buff_partial;
+            }
+            else
+            {
+                return textBytes;
+            }
+            
+        }
         private byte[] ConvertStringToBytes(string text, Encoding encoding)
         {
             byte[] stringBytes = encoding.GetBytes(text);
