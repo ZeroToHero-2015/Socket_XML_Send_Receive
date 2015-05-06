@@ -341,7 +341,7 @@ namespace Socket_XML_Send_Receive
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
 
                     byte[] buff_full = null;
-                    buff_full = ConvertStringToBytes();
+                    buff_full = ConvertStringToBytes(richTextBox1.Text);
 
                     if (checkBox1.Checked)
                     {
@@ -376,22 +376,22 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] ConvertStringToBytes()
+        private byte[] ConvertStringToBytes(string text)
         {
             byte[] stringBytes = null;
             switch (comboBox1.Text)
             {
                 case "ASCII":
-                    stringBytes = Encoding.ASCII.GetBytes(richTextBox1.Text);
+                    stringBytes = Encoding.ASCII.GetBytes(text);
                     break;
                 case "UTF7":
-                    stringBytes = Encoding.UTF7.GetBytes(richTextBox1.Text);
+                    stringBytes = Encoding.UTF7.GetBytes(text);
                     break;
                 case "UTF8":
-                    stringBytes = Encoding.UTF8.GetBytes(richTextBox1.Text);
+                    stringBytes = Encoding.UTF8.GetBytes(text);
                     break;
                 case "Unicode":
-                    stringBytes = Encoding.Unicode.GetBytes(richTextBox1.Text);
+                    stringBytes = Encoding.Unicode.GetBytes(text);
                     break;
                 default:
                     //
