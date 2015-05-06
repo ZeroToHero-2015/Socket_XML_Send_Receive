@@ -132,7 +132,7 @@ namespace Socket_XML_Send_Receive
                                 totalBytesReceived += bytesRcvd;
                             }
                             Array.Copy(rcvBuffer_full, 4, rcvBuffer_partial, 0, totalBytesReceived - 4);
-                            if (checkBox1.Checked)
+                            if (addLengthToMessageCheckBox.Checked)
                             {
                                 switch (encodingComboBox.Text)
                                 {
@@ -360,7 +360,7 @@ namespace Socket_XML_Send_Receive
 
         private byte[] GetBufferToSend(byte[] buff_full)
         {
-            if (checkBox1.Checked)
+            if (addLengthToMessageCheckBox.Checked)
             {
                 int reqLen = inputMessageTextBox.Text.Length;
                 int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen*2);
