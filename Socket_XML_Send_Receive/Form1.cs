@@ -336,20 +336,9 @@ namespace Socket_XML_Send_Receive
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
                     var buff_full = ConvertStringToByteArrayUsingEncoding(inputMessageTextBox.Text, (Encoding)encodingComboBox.SelectedItem);
-                    if (checkBox1.Checked)
-                    {
-                        int reqLen = inputMessageTextBox.Text.Length;
-                        int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
-                        byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
-                        byte[] buff_partial = new byte[reqLen * 2 + 4];
-                        reqLenArray.CopyTo(buff_partial, 0);
-                        buff_full.CopyTo(buff_partial, 4);
-                        server2.Send(buff_partial, 0, buff_partial.Length, SocketFlags.None);
-                    }
-                    else
-                    {
-                        server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);
-                    }
+
+                    server2.Send(GetBufferToSend(buff_full));
+
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
                 catch (Exception ex)
@@ -366,6 +355,24 @@ namespace Socket_XML_Send_Receive
                         Debug("CLIENT: deconectat de la server socket");
                     }
                 }
+            }
+        }
+
+        private byte[] GetBufferToSend(byte[] buff_full)
+        {
+            if (checkBox1.Checked)
+            {
+                int reqLen = inputMessageTextBox.Text.Length;
+                int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen*2);
+                byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
+                byte[] buff_partial = new byte[reqLen*2 + 4];
+                reqLenArray.CopyTo(buff_partial, 0);
+                buff_full.CopyTo(buff_partial, 4);
+                return buff_partial;
+            }
+            else
+            {
+                return buff_full;
             }
         }
 
