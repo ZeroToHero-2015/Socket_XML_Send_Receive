@@ -48,9 +48,14 @@ namespace Socket_XML_Send_Receive
         }
         private void Debug (string str)
         {
-            dt = GetCurrentDT();
-            richTextBox3.AppendText(dt+" - "+str + ".\n");
-            richTextBox3.ScrollToCaret();
+            Action appendToTextBox = () =>
+            {
+                dt = GetCurrentDT();
+                richTextBox3.AppendText(dt + " - " + str + ".\n");
+                richTextBox3.ScrollToCaret();
+            };
+
+            richTextBox3.Invoke(appendToTextBox);
         }
         public void MyValidationEventHandler(object sender, ValidationEventArgs args)
         {
