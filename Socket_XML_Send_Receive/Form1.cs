@@ -90,10 +90,7 @@ namespace Socket_XML_Send_Receive
             {
                 return true; //Document is valid
             }
-            else
-            {
-                return false;//Document is invalid
-            }
+            return false;//Document is invalid
         }
         private void Listener()
         {
@@ -358,19 +355,15 @@ namespace Socket_XML_Send_Receive
             }
         }
 
-        private byte[] GetBufferToSend(byte[] buff_full, bool shouldAddLengthToMessage)
+        private byte[] GetBufferToSend(byte[] messageArray, bool shouldAddLengthToMessage)
         {
             if (shouldAddLengthToMessage)
             {
-                int bufferLengthInNetworkOrder = IPAddress.HostToNetworkOrder(buff_full.Length);
+                int bufferLengthInNetworkOrder = IPAddress.HostToNetworkOrder(messageArray.Length);
                 byte[] reqLenArray = BitConverter.GetBytes(bufferLengthInNetworkOrder);
-                var buff_partial = ConcatenateArrays(reqLenArray, buff_full);
-                return buff_partial;
+                return ConcatenateArrays(reqLenArray, messageArray);
             }
-            else
-            {
-                return buff_full;
-            }
+            return messageArray;
         }
 
         private byte[] ConcatenateArrays(byte[] firstArray, byte[] secondArray)
