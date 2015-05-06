@@ -13,7 +13,7 @@ namespace Socket_XML_Send_Receive
     public partial class Form1 : Form
     {
         // variabile, constante
-        private Socket client1, server1, server2;
+        private Socket client1, server1;
         string ip_ext, dt;
         int port_send_ext, port_listen_int;
         private Thread workerThread1;
@@ -325,20 +325,19 @@ namespace Socket_XML_Send_Receive
         {
             ip_ext = textBox1.Text;
             port_send_ext = System.Convert.ToInt32(textBox2.Text);
-            server2 = null;
-            using (server2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
                 try
                 {
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
-                    server2.Connect(serverEndPoint);
+                    socket.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
                     var bufferCreator = new BufferCreator();
                     var bufferToSend = bufferCreator.GetBufferToSendFromString(
                         inputMessageTextBox.Text, 
                         (Encoding) encodingComboBox.SelectedItem, 
                         addLengthToMessageCheckBox.Checked);
-                    server2.Send(bufferToSend);
+                    socket.Send(bufferToSend);
 
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
@@ -346,15 +345,6 @@ namespace Socket_XML_Send_Receive
                 {
                     Debug("CLIENT: probleme conectare/trimitere de la client la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
                     Debug(ex.ToString());
-                }
-                finally
-                {
-                    if (server2 != null)
-                    {
-                        server2.Close();
-                        ((IDisposable)server2).Dispose();
-                        Debug("CLIENT: deconectat de la server socket");
-                    }
                 }
             }
         }
