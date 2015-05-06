@@ -332,9 +332,8 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    var buff_full = ConvertStringToByteArrayUsingEncoding(inputMessageTextBox.Text, (Encoding)encodingComboBox.SelectedItem);
-
-                    server2.Send(GetBufferToSend(buff_full, addLengthToMessageCheckBox.Checked));
+                    var bufferToSend = GetBufferToSendFromString(inputMessageTextBox.Text, (Encoding) encodingComboBox.SelectedItem, addLengthToMessageCheckBox.Checked);
+                    server2.Send(bufferToSend);
 
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
@@ -353,6 +352,14 @@ namespace Socket_XML_Send_Receive
                     }
                 }
             }
+        }
+
+        private byte[] GetBufferToSendFromString(string inputMessage, Encoding encoding, bool shouldAddLengthToMessage)
+        {
+            var messageArray = ConvertStringToByteArrayUsingEncoding(inputMessage, encoding);
+
+            var bufferToSend = GetBufferToSend(messageArray, shouldAddLengthToMessage);
+            return bufferToSend;
         }
 
         private byte[] GetBufferToSend(byte[] messageArray, bool shouldAddLengthToMessage)
