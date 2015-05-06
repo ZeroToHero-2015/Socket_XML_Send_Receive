@@ -93,11 +93,11 @@ namespace Socket_XML_Send_Receive
                 return true; //Document is valid
             }
             else
-            {
+            {                                                                     
                 return false;//Document is invalid
             };
         }
-        private void Listener()
+        private void Listen()
         {
             server1 = null;
             byte[] rcvBuffer_full = new byte[BUFSIZE_FULL];
@@ -537,19 +537,19 @@ namespace Socket_XML_Send_Receive
                 };
             };
         }
-        private void button3_Click(object sender, EventArgs e)
+        private void listenButton_Click(object sender, EventArgs e)
         {
-            if (button3.Text == "Listen ON")
+            if (listenButton.Text == "Listen ON")
             {
-                button3.Text = "Listen OFF";
+                listenButton.Text = "Listen OFF";
                 //button1.Enabled = true;
-                workerThread1 = new Thread(Listener);
+                workerThread1 = new Thread(Listen);
                 workerThread1.Start();
 
             }
             else
             {
-                button3.Text = "Listen ON";
+                listenButton.Text = "Listen ON";
                 //button1.Enabled = false;
                 try
                 {
@@ -620,9 +620,9 @@ namespace Socket_XML_Send_Receive
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (button3.Text == "Listen OFF")
+            if (listenButton.Text == "Listen OFF")
             {
-                button3_Click(sender, e);
+                listenButton_Click(sender, e);
             };
         }
     }
