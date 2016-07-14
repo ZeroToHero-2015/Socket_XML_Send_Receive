@@ -48,6 +48,12 @@ namespace Socket_XML_Send_Receive
         }
         private void Debug (string str)
         {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(() => Debug(str)));
+                return;
+            }
+
             dt = GetCurrentDT();
             richTextBox3.AppendText(dt+" - "+str + ".\n");
             richTextBox3.ScrollToCaret();
