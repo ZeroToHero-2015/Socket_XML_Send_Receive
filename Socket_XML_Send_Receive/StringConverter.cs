@@ -15,11 +15,11 @@ namespace Socket_XML_Send_Receive
             byte[] bytesToSend = GetContentBytes(encoding, content);
             if (shouldAddLengthPrefix)
             {
-                int reqLen = content.Length;
-                int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
+                int contentLength = bytesToSend.Length;
+                int reqLenH2N = IPAddress.HostToNetworkOrder(contentLength);
                 byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
 
-                byte[] buff_intermediar = new byte[reqLen * 2 + 4];
+                byte[] buff_intermediar = new byte[contentLength + 4];
                 reqLenArray.CopyTo(buff_intermediar, 0);
                 bytesToSend.CopyTo(buff_intermediar, 4);
                 bytesToSend = buff_intermediar;
