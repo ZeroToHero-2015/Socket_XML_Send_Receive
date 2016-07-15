@@ -46,7 +46,7 @@ namespace Socket_XML_Send_Receive
             IPAddress[] addr = ipEntry.AddressList;
             return addr[addr.Length - 1].ToString();
         }
-        private void Debug (string str)
+        private void Debug(string str)
         {
             if (InvokeRequired)
             {
@@ -55,7 +55,7 @@ namespace Socket_XML_Send_Receive
             }
 
             dt = GetCurrentDT();
-            richTextBox3.AppendText(dt+" - "+str + ".\n");
+            richTextBox3.AppendText(dt + " - " + str + ".\n");
             richTextBox3.ScrollToCaret();
         }
         public void MyValidationEventHandler(object sender, ValidationEventArgs args)
@@ -142,7 +142,7 @@ namespace Socket_XML_Send_Receive
                                 switch (comboBox1.Text)
                                 {
                                     case "ASCII":
-                                        if ((checkBox2.Checked) && (label11.Text!=""))
+                                        if ((checkBox2.Checked) && (label11.Text != ""))
                                         {
                                             if (Validation(label11.Text))
                                             {
@@ -328,7 +328,7 @@ namespace Socket_XML_Send_Receive
                 };
             };
         }
-        private void Sender(bool shouldAddLengthPrefix)
+        private void Sender(bool shouldAddLengthPrefix,string encoding)
         {
             ip_ext = textBox1.Text;
             port_send_ext = System.Convert.ToInt16(textBox2.Text);
@@ -340,30 +340,13 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
+                    byte[] buff_full = GetContentBytes(encoding, richTextBox1.Text);
                     if (shouldAddLengthPrefix)
                     {
-                        byte[] buff_full = null;
                         int reqLen = richTextBox1.Text.Length;
                         int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
                         byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
-                        switch (comboBox1.Text)
-                        {
-                            case "ASCII":
-                                buff_full = Encoding.ASCII.GetBytes(richTextBox1.Text);
-                                break;
-                            case "UTF7":
-                                buff_full = Encoding.UTF7.GetBytes(richTextBox1.Text);
-                                break;
-                            case "UTF8":
-                                buff_full = Encoding.UTF8.GetBytes(richTextBox1.Text);
-                                break;
-                            case "Unicode":
-                                buff_full = Encoding.Unicode.GetBytes(richTextBox1.Text);
-                                break;
-                            default:
-                                //
-                                break;
-                        };
+
                         byte[] buff_partial = new byte[reqLen * 2 + 4];
                         reqLenArray.CopyTo(buff_partial, 0);
                         buff_full.CopyTo(buff_partial, 4);
@@ -371,25 +354,6 @@ namespace Socket_XML_Send_Receive
                     }
                     else
                     {
-                        byte[] buff_full = null;
-                        switch (comboBox1.Text)
-                        {
-                            case "ASCII":
-                                buff_full = Encoding.ASCII.GetBytes(richTextBox1.Text);
-                                break;
-                            case "UTF7":
-                                buff_full = Encoding.UTF7.GetBytes(richTextBox1.Text);
-                                break;
-                            case "UTF8":
-                                buff_full = Encoding.UTF8.GetBytes(richTextBox1.Text);
-                                break;
-                            case "Unicode":
-                                buff_full = Encoding.Unicode.GetBytes(richTextBox1.Text);
-                                break;
-                            default:
-                                //
-                                break;
-                        };
                         server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);
                     };
                     Debug("CLIENT: date expediate de la client la server socket.");
@@ -408,9 +372,33 @@ namespace Socket_XML_Send_Receive
                         Debug("CLIENT: deconectat de la server socket");
                     };
                 };
+
             }
         }
 
+        private byte[] GetContentBytes(string enconding, string content)
+        {
+            byte[] contentBytes = null;
+            switch (enconding)
+            {
+                case "ASCII":
+                    contentBytes = Encoding.ASCII.GetBytes(content);
+                    break;
+                case "UTF7":
+                    contentBytes = Encoding.UTF7.GetBytes(content);
+                    break;
+                case "UTF8":
+                    contentBytes = Encoding.UTF8.GetBytes(content);
+                    break;
+                case "Unicode":
+                    contentBytes = Encoding.Unicode.GetBytes(content);
+                    break;
+                default:
+                    //
+                    break;
+            };
+            return contentBytes;
+        }
         // metode de baza
         public Form1()
         {
@@ -509,7 +497,7 @@ namespace Socket_XML_Send_Receive
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Sender(checkBox1.Checked);
+            Sender(checkBox1.Checked,comboBox1.Text);
         }
         private void button4_Click(object sender, EventArgs e)
         {
