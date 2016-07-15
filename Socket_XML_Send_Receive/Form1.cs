@@ -328,7 +328,7 @@ namespace Socket_XML_Send_Receive
                 };
             };
         }
-        private void Sender()
+        private void Sender(bool shouldAddLengthPrefix)
         {
             ip_ext = textBox1.Text;
             port_send_ext = System.Convert.ToInt16(textBox2.Text);
@@ -340,7 +340,7 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    if (checkBox1.Checked)
+                    if (shouldAddLengthPrefix)
                     {
                         byte[] buff_full = null;
                         int reqLen = richTextBox1.Text.Length;
@@ -509,7 +509,7 @@ namespace Socket_XML_Send_Receive
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Sender();
+            Sender(checkBox1.Checked);
         }
         private void button4_Click(object sender, EventArgs e)
         {
