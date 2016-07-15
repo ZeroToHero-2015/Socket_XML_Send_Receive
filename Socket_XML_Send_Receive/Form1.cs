@@ -18,7 +18,7 @@ namespace Socket_XML_Send_Receive
     public partial class Form1 : Form
     {
         // variabile, constante
-        private Socket client1, server1, server2;
+        private Socket client1, server1;
         string ip_ext, dt, ClientIP_int;
         int port_send_ext, port_listen_int;
         private Thread workerThread1;
@@ -332,8 +332,7 @@ namespace Socket_XML_Send_Receive
         {
             ip_ext = textBox1.Text;
             port_send_ext = System.Convert.ToInt16(textBox2.Text);
-            server2 = null;
-            using (server2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            using (var server2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
                 try
                 {
