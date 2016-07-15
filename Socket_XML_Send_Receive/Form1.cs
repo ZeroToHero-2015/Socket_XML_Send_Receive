@@ -340,7 +340,7 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    var bytesToSend = GetBytesToSend( encoding
+                    var bytesToSend = StringConverter.GetBytesToSend( encoding
                                                   , content
                                                   , shouldAddLengthPrefix);
                     server2.Send(bytesToSend, 0, bytesToSend.Length, SocketFlags.None);
@@ -363,49 +363,9 @@ namespace Socket_XML_Send_Receive
 
             }
         }
-        private byte[] GetBytesToSend ( string encoding
-                                    , string content 
-                                    , bool shouldAddLengthPrefix )
-        {
-            byte[] bytesToSend = GetContentBytes(encoding, content);
-            if (shouldAddLengthPrefix)
-            {
-                int reqLen = content.Length;
-                int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
-                byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
+        
 
-                byte[] buff_intermediar = new byte[reqLen * 2 + 4];
-                reqLenArray.CopyTo(buff_intermediar, 0);
-                bytesToSend.CopyTo(buff_intermediar, 4);
-                bytesToSend = buff_intermediar;
-            }
-
-            return bytesToSend;
-        }
-
-        private byte[] GetContentBytes(string enconding, string content)
-        {
-            byte[] contentBytes = null;
-            switch (enconding)
-            {
-                case "ASCII":
-                    contentBytes = Encoding.ASCII.GetBytes(content);
-                    break;
-                case "UTF7":
-                    contentBytes = Encoding.UTF7.GetBytes(content);
-                    break;
-                case "UTF8":
-                    contentBytes = Encoding.UTF8.GetBytes(content);
-                    break;
-                case "Unicode":
-                    contentBytes = Encoding.Unicode.GetBytes(content);
-                    break;
-                default:
-                    //
-                    break;
-            };
-            return contentBytes;
-        }
+        
         // metode de baza
         public Form1()
         {
