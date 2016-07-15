@@ -203,23 +203,26 @@ namespace Socket_XML_Send_Receive
             {
                 return false;
             }
-            switch (comboBox1.Text)
+            result = GetEncoding(comboBox1.Text).GetString(rcvBuffer_partial, 0, bytesReceived);
+            return true;
+           
+        }
+
+        private Encoding GetEncoding(string encodingType)
+        {
+            switch(encodingType)
             {
                 case "ASCII":
-                    result = Encoding.ASCII.GetString(rcvBuffer_partial, 0, bytesReceived);
-                    return true;
+                    return Encoding.ASCII;
                 case "UTF7":
-                    result = Encoding.UTF7.GetString(rcvBuffer_partial, 0, bytesReceived);
-                    return true;
+                    return Encoding.UTF7;
                 case "UTF8":
-                    result = Encoding.UTF8.GetString(rcvBuffer_partial, 0, bytesReceived);
-                    return true;
+                    return Encoding.UTF8;
                 case "Unicode":
-                    result = Encoding.Unicode.GetString(rcvBuffer_partial, 0, bytesReceived);
-                    return true;
+                    return Encoding.Unicode;
                 default:
-                    return false;
-            };
+                    throw new ArgumentException("Parametrul encodingType nu este bun", nameof(encodingType));
+            }
         }
 
         private void Sender(bool shouldAddLengthPrefix,string encoding, string content)
