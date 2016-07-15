@@ -328,7 +328,7 @@ namespace Socket_XML_Send_Receive
                 };
             };
         }
-        private void Sender(bool shouldAddLengthPrefix,string encoding)
+        private void Sender(bool shouldAddLengthPrefix,string encoding, string content)
         {
             ip_ext = textBox1.Text;
             port_send_ext = System.Convert.ToInt16(textBox2.Text);
@@ -340,22 +340,10 @@ namespace Socket_XML_Send_Receive
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip_ext), port_send_ext);
                     server2.Connect(serverEndPoint);
                     Debug("CLIENT: conectat la server socket <" + ip_ext + ":" + port_send_ext.ToString() + ">");
-                    byte[] buff_full = GetContentBytes(encoding, richTextBox1.Text);
-                    if (shouldAddLengthPrefix)
-                    {
-                        int reqLen = richTextBox1.Text.Length;
-                        int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
-                        byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
-
-                        byte[] buff_partial = new byte[reqLen * 2 + 4];
-                        reqLenArray.CopyTo(buff_partial, 0);
-                        buff_full.CopyTo(buff_partial, 4);
-                        server2.Send(buff_partial, 0, buff_partial.Length, SocketFlags.None);
-                    }
-                    else
-                    {
-                        server2.Send(buff_full, 0, buff_full.Length, SocketFlags.None);
-                    };
+                    var bytesToSend = GetBytesToSend( encoding
+                                                  , content
+                                                  , shouldAddLengthPrefix);
+                    server2.Send(bytesToSend, 0, bytesToSend.Length, SocketFlags.None);
                     Debug("CLIENT: date expediate de la client la server socket.");
                 }
                 catch (Exception ex)
@@ -374,6 +362,25 @@ namespace Socket_XML_Send_Receive
                 };
 
             }
+        }
+        private byte[] GetBytesToSend ( string encoding
+                                    , string content 
+                                    , bool shouldAddLengthPrefix )
+        {
+            byte[] bytesToSend = GetContentBytes(encoding, content);
+            if (shouldAddLengthPrefix)
+            {
+                int reqLen = content.Length;
+                int reqLenH2N = IPAddress.HostToNetworkOrder(reqLen * 2);
+                byte[] reqLenArray = BitConverter.GetBytes(reqLenH2N);
+
+                byte[] buff_intermediar = new byte[reqLen * 2 + 4];
+                reqLenArray.CopyTo(buff_intermediar, 0);
+                bytesToSend.CopyTo(buff_intermediar, 4);
+                bytesToSend = buff_intermediar;
+            }
+
+            return bytesToSend;
         }
 
         private byte[] GetContentBytes(string enconding, string content)
@@ -497,7 +504,7 @@ namespace Socket_XML_Send_Receive
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Sender(checkBox1.Checked,comboBox1.Text);
+            Sender(checkBox1.Checked,comboBox1.Text,richTextBox1.Text);
         }
         private void button4_Click(object sender, EventArgs e)
         {
