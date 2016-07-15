@@ -140,7 +140,10 @@ namespace Socket_XML_Send_Receive
                             if (checkBox1.Checked)
                             {
                                 string stringFromBytes;
-                                if (TryGetBytesWithPrefix(rcvBuffer_partial, totalBytesReceived - 4, out stringFromBytes))
+                                if (TryGetBytesWithPrefix( rcvBuffer_partial
+                                                       , totalBytesReceived - 4
+                                                       , (checkBox2.Checked) && (label11.Text != "")
+                                                       , out stringFromBytes))
                                 {
                                     richTextBox2.Text = stringFromBytes;
                                 }
@@ -150,98 +153,23 @@ namespace Socket_XML_Send_Receive
                                 }
 
                                 Debug("SERVER: receptionat " + (totalBytesReceived - 4) + " bytes");
-                                if (checkBox3.Checked)
-                                {
-                                    /*
-                                    client1.Send(rcvBuffer_partial, 0, rcvBuffer_partial.Length, SocketFlags.None);
-                                    Debug("SERVER: expediat echo data catre client.");
-                                    */
-                                };
                             }
                             else
                             {
-                                switch (comboBox1.Text)
+                                string stringFromBytes;
+                                if (TryGetBytesWithPrefix( rcvBuffer_full
+                                                       , totalBytesReceived
+                                                       , (checkBox2.Checked) && (label11.Text != "")
+                                                       , out stringFromBytes))
                                 {
-                                    case "ASCII":
-                                        if ((checkBox2.Checked) && (label11.Text != ""))
-                                        {
-                                            if (Validation(label11.Text))
-                                            {
-                                                richTextBox2.Text = Encoding.ASCII.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                            }
-                                            else
-                                            {
-                                                Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
-                                        }
-                                        else
-                                        {
-                                            richTextBox2.Text = Encoding.ASCII.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                        };
-                                        break;
-                                    case "UTF7":
-                                        if ((checkBox2.Checked) && (label11.Text != ""))
-                                        {
-                                            if (Validation(label11.Text))
-                                            {
-                                                richTextBox2.Text = Encoding.UTF7.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                            }
-                                            else
-                                            {
-                                                Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
-                                        }
-                                        else
-                                        {
-                                            richTextBox2.Text = Encoding.UTF7.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                        };
-                                        break;
-                                    case "UTF8":
-                                        if ((checkBox2.Checked) && (label11.Text != ""))
-                                        {
-                                            if (Validation(label11.Text))
-                                            {
-                                                richTextBox2.Text = Encoding.UTF8.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                            }
-                                            else
-                                            {
-                                                Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
-                                        }
-                                        else
-                                        {
-                                            richTextBox2.Text = Encoding.UTF8.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                        };
-                                        break;
-                                    case "Unicode":
-                                        if ((checkBox2.Checked) && (label11.Text != ""))
-                                        {
-                                            if (Validation(label11.Text))
-                                            {
-                                                richTextBox2.Text = Encoding.Unicode.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                            }
-                                            else
-                                            {
-                                                Debug("SERVER: eroare parsare XML via schema inclusa in antet");
-                                            };
-                                        }
-                                        else
-                                        {
-                                            richTextBox2.Text = Encoding.Unicode.GetString(rcvBuffer_full, 0, totalBytesReceived);
-                                        };
-                                        break;
-                                    default:
-                                        //
-                                        break;
-                                };
+                                    richTextBox2.Text = stringFromBytes;
+                                }
+                                else
+                                {
+                                    Debug("SERVER: eroare parsare XML via schema inclusa in antet");
+                                }
+
                                 Debug("SERVER: receptionat " + totalBytesReceived + " bytes");
-                                if (checkBox3.Checked)
-                                {
-                                    /*
-                                    client1.Send(rcvBuffer_partial, 0, rcvBuffer_partial.Length, SocketFlags.None);
-                                    Debug("SERVER: expediat echo data catre client.");
-                                    */
-                                };
                             };
                         };
                         if (client1 != null)
@@ -265,87 +193,30 @@ namespace Socket_XML_Send_Receive
             };
         }
 
-        private bool TryGetBytesWithPrefix(byte[] rcvBuffer_partial, int bytesReceived, out string result)
+        private bool TryGetBytesWithPrefix( byte[] rcvBuffer_partial
+                                       , int bytesReceived
+                                       , bool shouldValidateSchema
+                                       , out string result)
         {
             result = null;
+            if (shouldValidateSchema && !Validation(label11.Text))
+            {
+                return false;
+            }
             switch (comboBox1.Text)
             {
                 case "ASCII":
-                    if ((checkBox2.Checked) && (label11.Text != ""))
-                    {
-                        if (Validation(label11.Text))
-                        {
-                            result = Encoding.ASCII.GetString(rcvBuffer_partial, 0, bytesReceived);
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        };
-                    }
-                    else
-                    {
-                        result = Encoding.ASCII.GetString(rcvBuffer_partial, 0, bytesReceived);
-                        return true;
-                    };
-                    break;
+                    result = Encoding.ASCII.GetString(rcvBuffer_partial, 0, bytesReceived);
+                    return true;
                 case "UTF7":
-                    if ((checkBox2.Checked) && (label11.Text != ""))
-                    {
-                        if (Validation(label11.Text))
-                        {
-                            result = Encoding.UTF7.GetString(rcvBuffer_partial, 0, bytesReceived);
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        };
-                    }
-                    else
-                    {
-                        result = Encoding.UTF7.GetString(rcvBuffer_partial, 0, bytesReceived);
-                        return true;
-                    };
-                    break;
+                    result = Encoding.UTF7.GetString(rcvBuffer_partial, 0, bytesReceived);
+                    return true;
                 case "UTF8":
-                    if ((checkBox2.Checked) && (label11.Text != ""))
-                    {
-                        if (Validation(label11.Text))
-                        {
-                            result = Encoding.UTF8.GetString(rcvBuffer_partial, 0, bytesReceived);
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        };
-                    }
-                    else
-                    {
-                        result = Encoding.UTF8.GetString(rcvBuffer_partial, 0, bytesReceived);
-                        return true;
-                    };
-                    break;
+                    result = Encoding.UTF8.GetString(rcvBuffer_partial, 0, bytesReceived);
+                    return true;
                 case "Unicode":
-                    if ((checkBox2.Checked) && (label11.Text != ""))
-                    {
-                        if (Validation(label11.Text))
-                        {
-                            result = Encoding.Unicode.GetString(rcvBuffer_partial, 0, bytesReceived);
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        };
-                    }
-                    else
-                    {
-                        result = Encoding.Unicode.GetString(rcvBuffer_partial, 0, bytesReceived);
-                        return true;
-                    };
-                    break;
+                    result = Encoding.Unicode.GetString(rcvBuffer_partial, 0, bytesReceived);
+                    return true;
                 default:
                     return false;
             };
